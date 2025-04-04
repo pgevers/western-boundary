@@ -2,10 +2,18 @@ import { useCart } from '../context/CartContext';
 import { useEffect, useState } from 'react';
 import { sanity } from '../lib/sanity';
 import { Product } from '../types/Product';
+import { useNavigate } from 'react-router-dom';
+import { trackEvent } from '../lib/analytics';
 
 export default function CartPage() {
   const { cart, removeFromCart, clearCart } = useCart();
   const [products, setProducts] = useState<Product[]>([]);
+  const navigate = useNavigate();
+
+const handleCheckout = () => {
+  trackEvent("Begin Checkout", "Checkout", "Cart Page", getTotal());
+  navigate("/checkout");
+};
   console.log('cart context:', cart);
   useEffect(() => {
     const fetchProducts = async () => {
@@ -69,7 +77,23 @@ export default function CartPage() {
               </li>
             ))}
           </ul>
-
+          <div className="mt-6 flex justify-between items-center">
+        <p className="text-xl font-bold">Total: ${getTotal().toFixed(2)}</p>
+        <div className="flex gap-4">
+        <button
+      onClick={clearCart}
+      className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+    >
+      Clear Cart
+        </button>
+        <button
+      onClick={handleCheckout}
+      className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
+        >
+      Continue to Checkout
+        </button>
+        </div>
+        </div>    
           <div className="mt-6 flex justify-between items-center">
             <p className="text-xl font-bold">Total: ${getTotal().toFixed(2)}</p>
             <button

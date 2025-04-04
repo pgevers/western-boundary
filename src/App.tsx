@@ -3,6 +3,7 @@ import ProductList from './pages/ProductList';
 import LandingPage from './pages/LandingPage'; 
 import CartPage from './pages/CartPage';
 import ProductDetail from './pages/ProductDetail';
+import ThankYouPage from "./pages/ThankYouPage"; 
 import FooterNav from './components/FooterNav';
 import Header from './components/Header';
 
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/category/:name" element={<ProductList />} />
           <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/thank-you" element={<ThankYouPage />} />
         </Routes>
       </main>
 
