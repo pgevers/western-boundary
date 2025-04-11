@@ -34,7 +34,6 @@ const ReviewSubmitCard = ({ onBack }: Props) => {
 
   return (
     <div className="space-y-8">
-      {/* ... UI code unchanged ... */}
       <div className="flex justify-between">
         <button
           onClick={onBack}

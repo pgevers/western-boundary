@@ -15,18 +15,28 @@ export default function ProductList() {
         _id,
         name,
         price,
-        image { asset->{url} }
+        salePrice,
+        brand,
+        slug,
+        images[]{
+          asset,
+          alt
+        }
       }`;
-
+  
       try {
         const result = await sanity.fetch(query);
         console.log('📦 Sanity products:', result);
         setProducts(result);
       } catch (error) {
-        console.error('Error fetching products from Sanity:', error);
+        if (error instanceof Error) {
+          console.error('❌ Error fetching products from Sanity:', error.message);
+        } else {
+          console.error('❌ Error fetching products from Sanity:', error);
+        }
       }
     };
-
+  
     fetchProducts();
   }, []);
 
@@ -36,7 +46,7 @@ export default function ProductList() {
 
     addToCart(productId);
     trackEvent('add_to_cart', 'product', product.name, product.price);
-    console.log('Adding to cart:', productId);
+    console.log('🛒 Adding to cart:', productId);
   };
 
   return (
@@ -44,12 +54,7 @@ export default function ProductList() {
       {products.map((product) => (
         <ProductCard
           key={product._id}
-          product={{
-            id: product._id,
-            name: product.name,
-            price: product.price,
-            imageUrl: product.image?.asset?.url,
-          }}
+          product={product}
           onAddToCart={handleAddToCart}
         />
       ))}

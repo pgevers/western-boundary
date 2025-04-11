@@ -94,15 +94,7 @@ const handleCheckout = () => {
         </button>
         </div>
         </div>    
-          <div className="mt-6 flex justify-between items-center">
-            <p className="text-xl font-bold">Total: ${getTotal().toFixed(2)}</p>
-            <button
-              onClick={clearCart}
-              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-            >
-              Clear Cart
-            </button>
-          </div>
+          
         </>
       )}
     </div>

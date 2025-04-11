@@ -12,7 +12,9 @@ export const fetchProducts = async () => {
       _id,
       name,
       price,
-      "image": images[0].asset->url
-    }`
+      salePrice,
+      brand,
+      slug,
+      images[]{asset->}`
   );
 };

@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@sanity/client": "^6.28.4",
+    "@sanity/image-url": "^1.1.0",
     "cors": "^2.8.5",
+    "csv-parser": "^3.2.0",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
     "formik": "^2.4.6",
@@ -21,7 +23,9 @@
     "react-dom": "^19.0.0",
     "react-ga4": "^2.1.0",
     "react-router-dom": "^7.4.1",
+    "react-swipeable": "^7.0.2",
     "sequelize": "^6.37.7",
+    "uuid": "^11.1.0",
     "yup": "^1.6.1"
   },
   "devDependencies": {
@@ -38,6 +42,7 @@
     "globals": "^15.15.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.1.2",
+    "ts-node": "^10.9.2",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.0"

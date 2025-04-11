@@ -3,28 +3,32 @@ import HeroImageBlock from '../components/HeroImageBlock';
 import ProductCarousel from '../components/ProductCarousel';
 import { useCart } from '../context/CartContext';
 import { sanity } from '../lib/sanity';
-
-type CMSProduct = {
-  _id: string;
-  name: string;
-  price: number;
-  image?: { asset: { url: string } };
-};
+import type { Product } from '../types/Product';
 
 export default function LandingPage() {
   const { addToCart } = useCart();
-  const [featured, setFeatured] = useState<CMSProduct[]>([]);
-  const [bestSellers, setBestSellers] = useState<CMSProduct[]>([]);
-  const [newArrivals, setNewArrivals] = useState<CMSProduct[]>([]);
-  const [goingFast, setGoingFast] = useState<CMSProduct[]>([]);
+  const [featured, setFeatured] = useState<Product[]>([]);
+  const [bestSellers, setBestSellers] = useState<Product[]>([]);
+  const [newArrivals, setNewArrivals] = useState<Product[]>([]);
+  const [goingFast, setGoingFast] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchCarousels = async () => {
+      const queryFields = `
+        _id,
+        name,
+        price,
+        salePrice,
+        brand,
+        slug,
+        images[]{ asset, alt }
+      `;
+
       const queries = {
-        featured: `*[_type == "product" && featured == true]{ _id, name, price, image { asset->{url} } }`,
-        bestSellers: `*[_type == "product" && bestSeller == true]{ _id, name, price, image { asset->{url} } }`,
-        newArrivals: `*[_type == "product" && newArrival == true]{ _id, name, price, image { asset->{url} } }`,
-        goingFast: `*[_type == "product" && goingFast == true]{ _id, name, price, image { asset->{url} } }`,
+        featured: `*[_type == "product" && featured == true]{ ${queryFields} }`,
+        bestSellers: `*[_type == "product" && bestSeller == true]{ ${queryFields} }`,
+        newArrivals: `*[_type == "product" && newArrival == true]{ ${queryFields} }`,
+        goingFast: `*[_type == "product" && goingFast == true]{ ${queryFields} }`,
       };
 
       try {
@@ -39,20 +43,12 @@ export default function LandingPage() {
         setNewArrivals(n);
         setGoingFast(g);
       } catch (err) {
-        console.error('Error loading carousels:', err);
+        console.error('❌ Error loading carousels:', err);
       }
     };
 
     fetchCarousels();
   }, []);
-
-  const mapProducts = (products: CMSProduct[]) =>
-    products.map((p) => ({
-      id: p._id,
-      name: p.name,
-      price: p.price,
-      imageUrl: p.image?.asset?.url,
-    }));
 
   return (
     <>
@@ -66,24 +62,25 @@ export default function LandingPage() {
 
       <ProductCarousel
         title="Featured Accessories"
-        products={mapProducts(featured)}
+        products={featured}
         onAddToCart={addToCart}
       />
 
       <ProductCarousel
         title="Best Sellers"
-        products={mapProducts(bestSellers)}
+        products={bestSellers}
         onAddToCart={addToCart}
       />
 
       <ProductCarousel
         title="New Arrivals"
-        products={mapProducts(newArrivals)}
+        products={newArrivals}
         onAddToCart={addToCart}
       />
-       <ProductCarousel
-        title="Won't last long!"
-        products={mapProducts(goingFast)}
+
+      <ProductCarousel
+        title="Won’t Last Long!"
+        products={goingFast}
         onAddToCart={addToCart}
       />
     </>

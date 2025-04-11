@@ -3,6 +3,7 @@ import ProductList from './pages/ProductList';
 import LandingPage from './pages/LandingPage'; 
 import CartPage from './pages/CartPage';
 import ProductDetail from './pages/ProductDetail';
+import CheckoutPage from "./pages/CheckoutPage";
 import ThankYouPage from "./pages/ThankYouPage"; 
 import FooterNav from './components/FooterNav';
 import Header from './components/Header';
@@ -19,9 +20,10 @@ export default function App() {
       <main className="flex-grow px-4 pt-4 max-w-7xl mx-auto w-full">
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/category/:name" element={<ProductList />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/product/:slug" element={<ProductDetail />} />
           <Route path="/thank-you" element={<ThankYouPage />} />
         </Routes>
       </main>
